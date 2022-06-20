@@ -8,6 +8,7 @@ import com.sg.superherosighting.entity.Sighting;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -40,6 +41,16 @@ public class SightingDaoDB implements SightingDao {
     public List<Sighting> getAllSightings() {
         String query = "SELECT sightingId, sightingDate FROM Sighting";
         List<Sighting> sightings = jdbc.query(query, new SightingMapper());
+        associateHeroesToSighting(sightings);
+        associateLocationToSighting(sightings);
+        return sightings;
+    }
+    
+    @Override
+    public List<Sighting> getSightingsByDate(LocalDate date) {
+        Date sqlDate = Date.valueOf(date);
+        String query = "SELECT sightingId, sightingDate FROM Sighting WHERE sightingDate = ?";
+        List<Sighting> sightings = jdbc.query(query, new SightingMapper(), sqlDate);
         associateHeroesToSighting(sightings);
         associateLocationToSighting(sightings);
         return sightings;
