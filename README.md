@@ -54,10 +54,10 @@ one-to-many relationships in the database.
 ## NOTES   
   
 - Each Organization created in this DB stores most of it's information in the Location table. Because an Organization contains
-name, description, and address info it is semantically a location, and shares alot of column names with Location. A Location
+name, description, and address info, it is semantically equivalent to a Location, and shares alot of fields with Location. A Location
 entry is created for every Organization entry in the database, which is referenced by a foreign key in the Organization entry.
 But an Organization must also be a separate entity in the application, not related to Location objects. It cannot be retrieved,
-added or edited from the Location data access object, and vice versa. This complicates the sql statements and dao methods used
+added or edited from the Location data access object, and vice versa. This complicates the SQL statements and methods used
 for the database implementations of the Location and Organization data access objects. Also, more transactions have to occur
 for certain methods to work. For example:
   
@@ -88,6 +88,13 @@ for certain methods to work. For example:
         jdbc.update(deleteOrganizationLocationStmt, locationId);
     }      
 ``` 
+
+Deleting an organization takes four calls to the database when it could only take two, one to delete from HeroOrganization and one to delete
+from Organization. The foreign key representing the Location data in an Organization has to be obtained from the Organization, since the
+Location entry can be only be deleted from the database after the Organization entry.
+
+```
+
 
 
 
