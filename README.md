@@ -88,13 +88,39 @@ for certain methods to work. For example:
         jdbc.update(deleteOrganizationLocationStmt, locationId);
     }      
 ``` 
-
+  
 Deleting an organization takes four calls to the database when it could only take two, one to delete from HeroOrganization and one to delete
 from Organization. The foreign key representing the Location data in an Organization has to be obtained from the Organization, since the
-Location entry can be only be deleted from the database after the Organization entry.
-
+Location entry can be only be deleted from the database after the Organization entry. This takes an extra call. Deleting Organization data
+from the Locattion table takes another extra call.  
+  
 ```
-
+@Override
+    @Transactional
+    public void updateOrganization(Organization organization) {
+        String updateLocationStmt = "UPDATE Location SET name = ?, description "
+                + "= ?, streetNumber = ?, streetName = ?, city = ?, state = ?, "
+                + "zipcode = ? WHERE locationId = "
+                + "(SELECT Organization.locationId FROM `Organization` WHERE "
+                + "organizationId = ?)";
+        jdbc.update(updateLocationStmt, organization.getName(), 
+                organization.getDescription(), organization.getStreetNumber(),
+                organization.getStreetName(), organization.getCity(), 
+                organization.getState(), organization.getZipcode(), 
+                organization.getOrganizationId());
+        String updateOrganizationStmt = "UPDATE `Organization` SET phone = ?, "
+                + "email = ? WHERE organizationId = ?";
+        jdbc.update(updateOrganizationStmt, organization.getPhone(), 
+                organization.getEmail(), organization.getOrganizationId());
+        String deleteOrganizationHeroesStmt = "DELETE FROM HeroOrganization "
+                + "WHERE organizationId = ?";
+        jdbc.update(deleteOrganizationHeroesStmt, 
+                organization.getOrganizationId());
+        insertOrganizationHeroes(organization);
+    }
+```  
+  
+Updating an Organization means updating a Location, so this adds an extra call to the database. Also, just like in the delete method, the SQL statement used to edit the Location table includes a nested query in the WHERE clause condition. 
 
 
 
