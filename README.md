@@ -12,7 +12,7 @@ The system has the following requirements:
 - Heroes are affiliated with one or more superhero/supervillain organizations.
 - It must keep track of all location information:
 - Locations have names, descriptions, address information, and latitude/longitude coordinates.
-- It must keep track of all superhero/supervillain organization information:
+- It must keep track of all superhero/supervillain organization information:  
   Organizations have names, descriptions, and address/contact information. Organizations have members.
 - A user must be able to record a superhero/supervillain sighting for a particular location and date.
 - The system must be able to report all of the superheroes sighted at a particular location.
@@ -44,20 +44,23 @@ DAO and DTOs must fully represent all data and relationships contained in the da
 Implementation must make proper use of transactions.
 Unit tests must fully test all create, read, update, and delete functionality for all entities and test all many-to-many and
 one-to-many relationships in the database.
-   
+
+***  
+  
+## Entity Relationship Diagram 
    
 ![Enity Relationship Diagram for superherosighting database](https://github.com/naitRAM/superherosighting/blob/main/sql_scripts/superhero_sightings_ERD.jpg?raw=true)
   
-***
-  
-## NOTES  
+***  
+    
+## NOTES   
 
-- Although it's not required by assignment instructions, the Hero-Sighting relationship is one-to-many. It makes sense 
+- Although it's not required by assignment instructions, the Hero-Sighting relationship is many-to-many. It makes sense 
 to have the choice of adding multiple heroes to a sighting, and would be inconvenient for the user to add individual
 sightings of different heroes at the same location and date. And since we're using a DATE type and not DATETIME, we
 wouldn't be able to know if these multiple sightings happened at the same time. If this app will only ever need
 one hero per sighting, it would work just as well. We would just be using a list to store the sighting's hero in memory
-and a bridge table for a one-to-one relationship in the database.
+and a bridge table for a one-to-one relationship in the database.  
   
 - Each Organization created in this DB stores most of it's information in the Location table. Because an Organization contains
 name, description, and address info, it is semantically equivalent to a Location, and shares alot of fields with Location. A Location
@@ -104,25 +107,32 @@ from the Location table takes another call.
     @Override
     @Transactional
     public void updateOrganization(Organization organization) {
+
         String updateLocationStmt = "UPDATE Location SET name = ?, description "
                 + "= ?, streetNumber = ?, streetName = ?, city = ?, state = ?, "
                 + "zipcode = ? WHERE locationId = "
                 + "(SELECT Organization.locationId FROM `Organization` WHERE "
                 + "organizationId = ?)";
+
         jdbc.update(updateLocationStmt, organization.getName(), 
                 organization.getDescription(), organization.getStreetNumber(),
                 organization.getStreetName(), organization.getCity(), 
                 organization.getState(), organization.getZipcode(), 
                 organization.getOrganizationId());
+
         String updateOrganizationStmt = "UPDATE `Organization` SET phone = ?, "
                 + "email = ? WHERE organizationId = ?";
+
         jdbc.update(updateOrganizationStmt, organization.getPhone(), 
                 organization.getEmail(), organization.getOrganizationId());
         String deleteOrganizationHeroesStmt = "DELETE FROM HeroOrganization "
                 + "WHERE organizationId = ?";
+
         jdbc.update(deleteOrganizationHeroesStmt, 
                 organization.getOrganizationId());
+
         insertOrganizationHeroes(organization);
+
     }
 ```  
   
