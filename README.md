@@ -7,20 +7,19 @@ With the rising popularity of superhero movies, there has been a heightened awar
   
 The system has the following requirements:
   
-It must keep track of all superhero/supervillain information.
-Heroes have names, descriptions, and a superpower.
-Heroes are affiliated with one or more superhero/supervillain organizations.
-It must keep track of all location information:
-Locations have names, descriptions, address information, and latitude/longitude coordinates.
-It must keep track of all superhero/supervillain organization information:
-Organizations have names, descriptions, and address/contact information.
-Organizations have members.
-A user must be able to record a superhero/supervillain sighting for a particular location and date.
-The system must be able to report all of the superheroes sighted at a particular location.
-The system must be able to report all of the locations where a particular superhero has been seen.
-The system must be able to report all sightings (hero and location) for a particular date.
-The system must be able to report all of the members of a particular organization.
-The system must be able to report all of the organizations a particular superhero/villain belongs to.
+- It must keep track of all superhero/supervillain information.
+- Heroes have names, descriptions, and a superpower.
+- Heroes are affiliated with one or more superhero/supervillain organizations.
+- It must keep track of all location information:
+- Locations have names, descriptions, address information, and latitude/longitude coordinates.
+- It must keep track of all superhero/supervillain organization information:
+  Organizations have names, descriptions, and address/contact information. Organizations have members.
+- A user must be able to record a superhero/supervillain sighting for a particular location and date.
+- The system must be able to report all of the superheroes sighted at a particular location.
+- The system must be able to report all of the locations where a particular superhero has been seen.
+- The system must be able to report all sightings (hero and location) for a particular date.
+- The system must be able to report all of the members of a particular organization.
+- The system must be able to report all of the organizations a particular superhero/villain belongs to.
   
 ## Deliverables  
 To complete this assignment, you must deliver the following items:  
@@ -51,14 +50,21 @@ one-to-many relationships in the database.
   
 ***
   
-## NOTES   
+## NOTES  
+
+- Although it's not required by assignment instructions, the Hero-Sighting relationship is one-to-many. It makes sense 
+to have the choice of adding multiple heroes to a sighting, and would be inconvenient for the user to add individual
+sightings of different heroes at the same location and date. And since we're using a DATE type and not DATETIME, we
+wouldn't be able to know if these multiple sightings happened at the same time. If this app will only ever need
+one hero per sighting, it would work just as well. We would just be using a list to store the sighting's hero in memory
+and a bridge table for a one-to-one relationship in the database.
   
 - Each Organization created in this DB stores most of it's information in the Location table. Because an Organization contains
 name, description, and address info, it is semantically equivalent to a Location, and shares alot of fields with Location. A Location
 entry is created for every Organization entry in the database, which is referenced by a foreign key in the Organization entry.
 But an Organization must also be a separate entity in the application, not related to Location objects. It cannot be retrieved,
 added or edited from the Location data access object, and vice versa. This complicates the SQL statements and methods used
-for the database implementations of the Location and Organization data access objects. Also, more transactions have to occur
+for the database implementations of the Location and Organization data access objects. Also, more calls have to occur
 for certain methods to work. For example:
   
 ``` 
@@ -92,10 +98,10 @@ for certain methods to work. For example:
 Deleting an organization takes four calls to the database when it could only take two, one to delete from HeroOrganization and one to delete
 from Organization. The foreign key representing the Location data in an Organization has to be obtained from the Organization, since the
 Location entry can be only be deleted from the database after the Organization entry. This takes an extra call. Deleting Organization data
-from the Locattion table takes another extra call.  
+from the Location table takes another call.  
   
 ```
-@Override
+    @Override
     @Transactional
     public void updateOrganization(Organization organization) {
         String updateLocationStmt = "UPDATE Location SET name = ?, description "
