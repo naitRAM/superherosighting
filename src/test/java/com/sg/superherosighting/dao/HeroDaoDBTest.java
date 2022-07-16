@@ -9,6 +9,7 @@ import com.sg.superherosighting.entity.Hero;
 import com.sg.superherosighting.entity.Location;
 import com.sg.superherosighting.entity.Organization;
 import com.sg.superherosighting.entity.Sighting;
+import com.sg.superherosighting.entity.SuperPower;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,29 +38,36 @@ public class HeroDaoDBTest {
     @Autowired
     SightingDao sightingDao;
     
+    @Autowired 
+    SuperPowerDao superPowerDao;
     public HeroDaoDBTest() {
     }
     
     @BeforeEach
     public void setUp() {
         List<Sighting> sightings = sightingDao.getAllSightings();
-        for (Sighting sighting : sightings) {
+        sightings.forEach(sighting -> {
             sightingDao.deleteSighting(sighting);
-        }
+        });
         List<Hero> heroes = heroDao.getAllHeroes();
-        for (Hero hero : heroes) {
+        heroes.forEach(hero -> {
             heroDao.deleteHero(hero);
-        }
+        });
         
         List<Location> locations = locationDao.getAllLocations();
-        for (Location location : locations) {
+        locations.forEach(location -> {
             locationDao.deleteLocation(location);
-        }
+        });
         
         List<Organization> organizations = organizationDao.getAllOrganizations();
-        for (Organization organization : organizations) {
+        organizations.forEach(organization -> {
             organizationDao.deleteOrganization(organization);
-        }
+        });
+        
+        List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
+        superPowers.forEach(superPower -> {
+            superPowerDao.deleteSuperPower(superPower);
+        });
     }
 
     @Test
@@ -89,14 +97,22 @@ public class HeroDaoDBTest {
         testOrganization.setPhone("8881234567");
         testOrganization = organizationDao.addOrganization(testOrganization);
         
+        SuperPower testSuperPower = new SuperPower();
+        testSuperPower.setName("Apparition");
+        testSuperPower = superPowerDao.addSuperPower(testSuperPower);
+        
+        
         
         List<Organization> heroOrganizations = new ArrayList<>();
         heroOrganizations.add(testOrganization);
         
+        List<SuperPower> heroSuperPowers = new ArrayList<>();
+        heroSuperPowers.add(testSuperPower);
+        
         Hero testHero = new Hero();
         testHero.setName("Checkers");
         testHero.setDescription("An elderly magician with sleight of hand and a cheeky smile, known for his checkered suits");
-        testHero.setSuperPower("Apparition");
+        testHero.setSuperPowers(heroSuperPowers);
         testHero.setOrganizations(heroOrganizations);
         
         Hero fromDao = heroDao.addHero(testHero);
@@ -150,12 +166,22 @@ public class HeroDaoDBTest {
         testOrganization2.setPhone("8881234567");
         testOrganization2 = organizationDao.addOrganization(testOrganization2);
         
+        SuperPower testSuperPower = new SuperPower();
+        testSuperPower.setName("Shoots barbed wire");
+        testSuperPower = superPowerDao.addSuperPower(testSuperPower);
+        
+        SuperPower testSuperPower2 = new SuperPower();
+        testSuperPower2.setName("Apparition");
+        testSuperPower2 = superPowerDao.addSuperPower(testSuperPower2);
+        
         
         
         Hero testHero = new Hero();
         testHero.setName("Barbee");
         testHero.setDescription("An evil madwoman with hair made of blonde barbs used to snare her victims");
-        testHero.setSuperPower("Shoots barbed wire");
+        List<SuperPower> heroSuperPowers = new ArrayList<>();
+        heroSuperPowers.add(testSuperPower);
+        testHero.setSuperPowers(heroSuperPowers);
         List<Organization> testHeroOrganizations = new ArrayList<>();
         testHeroOrganizations.add(testOrganization);
         testHero.setOrganizations(testHeroOrganizations);
@@ -165,7 +191,10 @@ public class HeroDaoDBTest {
         Hero testHero2 = new Hero();
         testHero2.setName("Checkers");
         testHero2.setDescription("An elderly magician with sleight of hand and a cheeky smile, known for his checkered suits");
-        testHero2.setSuperPower("Apparition");
+        List<SuperPower> heroSuperPowers2 = new ArrayList<>();
+        heroSuperPowers2.add(testSuperPower2);
+        testHero2.setSuperPowers(heroSuperPowers2);
+      
         List<Organization> testHeroOrganizations2 = new ArrayList<>();
         testHeroOrganizations2.add(testOrganization2);
       
@@ -264,10 +293,17 @@ public class HeroDaoDBTest {
         testOrganization2.setPhone("6664444444");
         testOrganization2 = organizationDao.addOrganization(testOrganization2);
         
+        SuperPower testSuperPower = new SuperPower();
+        testSuperPower.setName("Morphs into concrete");
+        testSuperPower = superPowerDao.addSuperPower(testSuperPower);
+        
+        List<SuperPower> heroSuperPowers = new ArrayList<>();
+        heroSuperPowers.add(testSuperPower);
+        
         Hero testHero = new Hero();
         testHero.setName("Stoneman");
         testHero.setDescription("Construction worker by day, crime-fighter by night, can turn his arms into stone");
-        testHero.setSuperPower("Morphs into concrete");
+        testHero.setSuperPowers(heroSuperPowers);
         List<Organization> heroOrganizations = new ArrayList<>();
         heroOrganizations.add(testOrganization);
         testHero.setOrganizations(heroOrganizations);
@@ -316,10 +352,22 @@ public class HeroDaoDBTest {
         testOrganization2.setPhone("6664444444");
         testOrganization2 = organizationDao.addOrganization(testOrganization2);
         
+        SuperPower testSuperPower = new SuperPower();
+        testSuperPower.setName("Morphs into concrete");
+        testSuperPower = superPowerDao.addSuperPower(testSuperPower);
+        
+        SuperPower testSuperPower2 = new SuperPower();
+        testSuperPower2.setName("Shoots barbed wire");
+        testSuperPower2 = superPowerDao.addSuperPower(testSuperPower2);
+        
+       
+        
         Hero testHero = new Hero();
         testHero.setName("Stoneman");
         testHero.setDescription("Construction worker by day, crime-fighter by night, can turn his arms into stone");
-        testHero.setSuperPower("Morphs into concrete");
+        List<SuperPower> heroSuperPowers = new ArrayList<>();
+        heroSuperPowers.add(testSuperPower);
+        testHero.setSuperPowers(heroSuperPowers);
         List<Organization> heroOrganizations = new ArrayList<>();
         heroOrganizations.add(testOrganization);
         testHero.setOrganizations(heroOrganizations);
@@ -330,7 +378,9 @@ public class HeroDaoDBTest {
         Hero testHero2 = new Hero();
         testHero2.setName("Barbee");
         testHero2.setDescription("An evil madwoman with hair made of blonde barbs used to snare her victims");
-        testHero2.setSuperPower("Shoots barbed wire");
+        List<SuperPower> heroSuperPowers2 = new ArrayList<>();
+        heroSuperPowers2.add(testSuperPower2);
+        testHero2.setSuperPowers(heroSuperPowers2);
         List<Organization> heroOrganizations2 = new ArrayList<>();
         heroOrganizations2.add(testOrganization2);
         testHero2.setOrganizations(heroOrganizations2);
@@ -371,6 +421,7 @@ public class HeroDaoDBTest {
         
         testHero.setOrganizations(new ArrayList<>());
         testHero.setLocations(new ArrayList<>());
+        testHero.setSuperPowers(new ArrayList<>());
         testLocation = locationDao.getLocationById(testLocation.getLocationId());
         assertTrue(testLocation.getSightedHeroes().contains(testHero));
         testOrganization = organizationDao.getOrganizationById(testOrganization.getOrganizationId());
@@ -387,6 +438,7 @@ public class HeroDaoDBTest {
         assertTrue(allHeroes.contains(testHero2));
         testHero2.setOrganizations(new ArrayList<>());
         testHero2.setLocations(new ArrayList<>());
+        testHero2.setSuperPowers(new ArrayList<>());
         testLocation = locationDao.getLocationById(testLocation.getLocationId());
         assertTrue(! testLocation.getSightedHeroes().contains(testHero));
         assertEquals(testLocation.getSightedHeroes().size(), 1);

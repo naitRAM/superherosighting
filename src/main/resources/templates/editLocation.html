@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+
+        <title>SuperHero Sightings</title>
+    </head>
+    <body>
+        <!-- Main Body of Page -->
+        <div class="container">
+            <div class="row m-4">
+                <div class="col text-center border border-dark">
+                    <h1>SuperHero Sightings</h1>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col text-center m-3">
+                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="superpowers" class="btn btn-outline-primary btn-lg">SuperPowers</a>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col-3 text-center m-3">
+                    <span class="h3">Edit Location</span>
+                </div>
+                <div class="col-7 text-center m-3">
+                    <form action="editLocation" method="POST">
+                        <div class="form-group row">
+                            <label for="name" class="col-3 col-form-label">
+                                Name</label>
+                            <div class="col-9">
+                                <input type="text" name="name" 
+                                       id="name" th:value="${location.name}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-3 col-form-label">
+                                Description</label>
+                            <div class="col-9">
+                                <input type="text" name="description" 
+                                       id="description" th:value="${location.description}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="streetNumber" class="col-3 col-form-label">
+                                Street Number</label>
+                            <div class="col-9">
+                                <input type="text" name="streetNumber" 
+                                       id="streetNumber" th:value="${location.streetNumber}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="streetName" class="col-3 col-form-label">
+                                Street Name</label>
+                            <div class="col-9">
+                                <input type="text" name="streetName" 
+                                       id="streetName" th:value="${location.streetName}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="city" class="col-3 col-form-label">
+                                City</label>
+                            <div class="col-9">
+                                <input type="text" name="city" 
+                                       id="city" th:value="${location.city}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="state" class="col-3 col-form-label">
+                                State</label>
+                            <div class="col-9">
+                                <input type="text" name="state" 
+                                       id="state" th:value="${location.state}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="zipcode" class="col-3 col-form-label">
+                                Zipcode</label>
+                            <div class="col-9">
+                                <input type="text" name="zipcode" 
+                                       id="zipcode" th:value="${location.zipcode}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="latitude" class="col-3 col-form-label">
+                                Latitude</label>
+                            <div class="col-9">
+                                <input type="text" name="latitude" 
+                                       id="latitude" th:value="${location.latitude}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="longitude" class="col-3 col-form-label">
+                                Longitude</label>
+                            <div class="col-9">
+                                <input type="text" name="longitude" 
+                                       id="longitude" th:value="${location.longitude}" class="form-control"/>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Edit Location</button>
+                        <input type="hidden" id="locationId" name="locationId" th:value="${location.locationId}"/>
+                    </form>
+                </div>
+            </div>
+            
+        </div>  
+
+
+        <!-- End main body -->
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>
+

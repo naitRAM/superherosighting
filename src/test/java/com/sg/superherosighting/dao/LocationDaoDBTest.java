@@ -10,6 +10,7 @@ import com.sg.superherosighting.entity.Hero;
 import com.sg.superherosighting.entity.Location;
 import com.sg.superherosighting.entity.Organization;
 import com.sg.superherosighting.entity.Sighting;
+import com.sg.superherosighting.entity.SuperPower;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,9 @@ public class LocationDaoDBTest {
 
     @Autowired
     SightingDao sightingDao;
+    
+    @Autowired
+    SuperPowerDao superPowerDao;
 
     public LocationDaoDBTest() {
     }
@@ -45,23 +49,28 @@ public class LocationDaoDBTest {
     @BeforeEach
     public void setUp() {
         List<Sighting> sightings = sightingDao.getAllSightings();
-        for (Sighting sighting : sightings) {
+        sightings.forEach(sighting -> {
             sightingDao.deleteSighting(sighting);
-        }
+        });
         List<Hero> heroes = heroDao.getAllHeroes();
-        for (Hero hero : heroes) {
+        heroes.forEach(hero -> {
             heroDao.deleteHero(hero);
-        }
+        });
         
         List<Location> locations = locationDao.getAllLocations();
-        for (Location location : locations) {
+        locations.forEach(location -> {
             locationDao.deleteLocation(location);
-        }
+        });
         
         List<Organization> organizations = organizationDao.getAllOrganizations();
-        for (Organization organization : organizations) {
+        organizations.forEach(organization -> {
             organizationDao.deleteOrganization(organization);
-        }
+        });
+        
+        List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
+        superPowers.forEach(superPower -> {
+            superPowerDao.deleteSuperPower(superPower);
+        });
         
     }
 
@@ -83,7 +92,6 @@ public class LocationDaoDBTest {
         Hero testHero = new Hero();
         testHero.setName("Barbee");
         testHero.setDescription("An evil beauty with hair made of blonde barbs used to snare her victims");
-        testHero.setSuperPower("Shoots barbed wire");
 
         testHero = heroDao.addHero(testHero);
         List<Hero> locationHeroes = new ArrayList<>();
@@ -131,28 +139,30 @@ public class LocationDaoDBTest {
         testLocation = locationDao.addLocation(testLocation);
         testLocation2 = locationDao.addLocation(testLocation2);
 
+        
+        
         Hero testHero = new Hero();
         testHero.setName("Barbee");
         testHero.setDescription("An evil madwoman with hair made of blonde barbs used to snare her victims");
-        testHero.setSuperPower("Shoots barbed wire");
+        
         testHero = heroDao.addHero(testHero);
 
         Hero testHero2 = new Hero();
         testHero2.setName("Checkers");
         testHero2.setDescription("An elderly magician with sleight of hand and a cheeky smile, known for his checkered suits");
-        testHero2.setSuperPower("Apparition");
+        
         testHero2 = heroDao.addHero(testHero2);
 
         Hero testHero3 = new Hero();
         testHero3.setName("Stoneman");
         testHero3.setDescription("Construction worker by day, crime-fighter by night, can turn his arms into stone");
-        testHero3.setSuperPower("Morphs into concrete");
+        
         testHero3 = heroDao.addHero(testHero3);
 
         Hero testHero4 = new Hero();
         testHero4.setName("Teapot");
         testHero4.setDescription("A sumo wrestler and former Yakuza gang member, known for his tea-stained teeth");
-        testHero4.setSuperPower("Immense weight and strength");
+        
         testHero4 = heroDao.addHero(testHero4);
 
         List<Hero> testLocationHeroes = new ArrayList<>();

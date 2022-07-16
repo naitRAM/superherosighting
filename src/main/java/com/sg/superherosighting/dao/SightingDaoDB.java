@@ -77,15 +77,15 @@ public class SightingDaoDB implements SightingDao {
     }
     
      private void associateHeroesToSighting(List<Sighting> sightings) {
-        for (Sighting sighting : sightings) {
-            sighting.setHeroesSighted(getSightingHeroes(sighting));
-        }
+         sightings.forEach(sighting -> {
+             sighting.setHeroesSighted(getSightingHeroes(sighting));
+        });
     }
     
     private void associateLocationToSighting(List<Sighting> sightings) {
-        for (Sighting sighting: sightings) {
+        sightings.forEach(sighting -> {
             sighting.setLocation(getSightingLocation(sighting));
-        }
+        });
     }
 
     @Override

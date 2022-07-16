@@ -16,15 +16,14 @@ public class Hero {
     int heroId;
     String name;
     String description;
-    String superPower;
+    List<SuperPower> superPowers = new ArrayList<>();;
     List<Location> locations = new ArrayList<>();
     List<Organization> organizations = new ArrayList<>();
 
-    public Hero (int heroId, String name, String description, String superPower) {
+    public Hero (int heroId, String name, String description) {
         this.heroId = heroId;
         this.name = name;
         this.description = description;
-        this.superPower = superPower;
     }
     
     public Hero () {
@@ -47,12 +46,12 @@ public class Hero {
         this.description = description;
     }
 
-    public String getSuperPower() {
-        return superPower;
+    public List<SuperPower> getSuperPowers() {
+        return superPowers;
     }
 
-    public void setSuperPower(String superPower) {
-        this.superPower = superPower;
+    public void setSuperPowers(List<SuperPower> superPowers) {
+        this.superPowers = superPowers;
     }
 
     public List<Location> getLocations() {
@@ -81,13 +80,13 @@ public class Hero {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 61 * hash + this.heroId;
-        hash = 61 * hash + Objects.hashCode(this.name);
-        hash = 61 * hash + Objects.hashCode(this.description);
-        hash = 61 * hash + Objects.hashCode(this.superPower);
-        hash = 61 * hash + Objects.hashCode(this.locations);
-        hash = 61 * hash + Objects.hashCode(this.organizations);
+        int hash = 3;
+        hash = 29 * hash + this.heroId;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.description);
+        hash = 29 * hash + Objects.hashCode(this.superPowers);
+        hash = 29 * hash + Objects.hashCode(this.locations);
+        hash = 29 * hash + Objects.hashCode(this.organizations);
         return hash;
     }
 
@@ -112,7 +111,7 @@ public class Hero {
         if (!Objects.equals(this.description, other.description)) {
             return false;
         }
-        if (!Objects.equals(this.superPower, other.superPower)) {
+        if (!Objects.equals(this.superPowers, other.superPowers)) {
             return false;
         }
         if (!Objects.equals(this.locations, other.locations)) {
@@ -124,11 +123,5 @@ public class Hero {
         return true;
     }
 
-    
-    
-
-    
-
-    
     
 }
