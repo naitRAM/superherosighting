@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row m-4">
                 <div class="col text-center border border-dark">
-                    <h1>SuperHero Sightings</h1>
+                    <a href="/"><h1>SuperHero Sightings</h1></a>
                 </div>
             </div>
             <div class="row m-4 border border-dark">
@@ -35,27 +35,28 @@
                     <a href="superpowers" class="btn btn-outline-primary btn-lg">SuperPowers</a>
                 </div>
             </div>
-        </div>  
-        <div class="row m-4 border border-dark">
-            <div class="col-3 text-center m-3">
-                <span class="h3">Edit SuperPower</span>
-            </div>
-            <div class="col-7 text-center m-3">
-                <form action="editSuperPower" method="POST">
-                    <div class="form-group row">
-                        <label for="name" class="col-3 col-form-label">
-                            Name</label>
-                        <div class="col-9">
-                            <input type="text" name="name" 
-                                   id="name" th:value="${superPower.name}" class="form-control"/>
+
+            <div class="row m-4 border border-dark">
+                <div class="col-3 text-center m-3">
+                    <span class="h3">Edit SuperPower</span>
+                </div>
+                <div class="col-7 text-center m-3">
+                    <form action="editSuperPower" method="POST">
+                        <div class="form-group row">
+                            <label for="name" class="col-3 col-form-label">
+                                Name</label>
+                            <div class="col-9">
+                                <input type="text" name="name" 
+                                       id="name" th:value="${superPower.name}" class="form-control"/>
+                            </div>
                         </div>
-                    </div>
-                    <input type="hidden" id="superPowerId" name="superPowerId" th:value="${superPower.superPowerId}"/>
-                    <button type="submit" class="btn btn-primary">Edit SuperPower</button>
-                </form>
+                        <input type="hidden" id="superPowerId" name="superPowerId" th:value="${superPower.superPowerId}"/>
+                        <button type="submit" class="btn btn-primary">Edit SuperPower</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        
+        </div> 
+
     </div> 
 
     <!-- End main body -->

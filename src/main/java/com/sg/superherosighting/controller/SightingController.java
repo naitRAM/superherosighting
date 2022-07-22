@@ -117,12 +117,12 @@ public class SightingController {
         return "redirect:/sightings";
     }
     
-    @GetMapping(value = "sightingImage", produces = MediaType.IMAGE_JPEG_VALUE)
-    public void sendImage(HttpServletResponse response) throws MalformedURLException, IOException{
-        URL url = new URL("https://maps.googleapis.com/maps/api/staticmap?center=40.714%2c%20-73.998&zoom=12&size=400x400&key=AIzaSyCiYseIf_oPMhJNW1UhTlfgbqHPa0dZwtI");
-        InputStream image = url.openStream();
-        response.setContentType(MediaType.IMAGE_PNG_VALUE);
-        StreamUtils.copy(image, response.getOutputStream());
+    @GetMapping("sightingDetail")
+    public String displaySighting (Model model, Integer id) {
+        Sighting sighting = sightingDao.getSightingById(id);
+        model.addAttribute("sighting", sighting);
+        return "sightingDetail";
     }
-            
+    
+   
 }

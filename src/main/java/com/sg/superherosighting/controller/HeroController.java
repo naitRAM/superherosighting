@@ -1,6 +1,8 @@
 package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.dao.HeroDao;
+import com.sg.superherosighting.dao.HeroImageDao;
+import com.sg.superherosighting.dao.HeroImageDaoException;
 import com.sg.superherosighting.dao.LocationDao;
 import com.sg.superherosighting.dao.OrganizationDao;
 import com.sg.superherosighting.dao.SightingDao;
@@ -8,20 +10,13 @@ import com.sg.superherosighting.dao.SuperPowerDao;
 import com.sg.superherosighting.entity.Hero;
 import com.sg.superherosighting.entity.Organization;
 import com.sg.superherosighting.entity.SuperPower;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
@@ -52,6 +47,9 @@ public class HeroController {
 
     @Autowired
     SightingDao sightingDao;
+    
+    @Autowired
+    HeroImageDao heroImageDao;
 
     @GetMapping("heroes")
     public String displayHeroes(Model model) {
@@ -65,7 +63,7 @@ public class HeroController {
     }
 
     @PostMapping("addHero")
-    public String addHero(Hero hero, HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
+    public String addHero(Hero hero, HttpServletRequest request, @RequestParam("file") MultipartFile file) throws HeroImageDaoException {
         String[] superPowerIds = request.getParameterValues("superPowerIds");
         String[] organizationIds = request.getParameterValues("organizationIds");
 
@@ -84,17 +82,17 @@ public class HeroController {
         hero.setOrganizations(heroOrganizations);
         hero.setSuperPowers(heroSuperPowers);
         hero = heroDao.addHero(hero);
-        String fileName = "images/" + "hero_" + hero.getHeroId() + ".jpeg";
-        File diskFile = new File(fileName);
-        Files.copy(file.getInputStream(), Paths.get(fileName), REPLACE_EXISTING);
+        heroImageDao.saveHeroImage(file, hero.getHeroId());
         return "redirect:/heroes";
     }
     
-    @GetMapping(value = "heroImage/{heroId}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public void sendImage(@PathVariable Integer heroId, HttpServletResponse response) throws FileNotFoundException, IOException {
-        InputStream image = new FileInputStream("images/" + "hero_" + heroId + ".jpeg");
-        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        StreamUtils.copy(image, response.getOutputStream());
+    @GetMapping("heroImage/{heroId}")
+    public void sendImage(@PathVariable Integer heroId, HttpServletResponse response) throws IOException  {
+        InputStream image = heroImageDao.getHeroImage(heroId);
+        if (image != null) {
+            StreamUtils.copy(image, response.getOutputStream());
+            image.close();
+        }
         
     }
 
@@ -113,7 +111,7 @@ public class HeroController {
     }
     
     @PostMapping("editHero")
-    public String updateHero(Hero hero, HttpServletRequest request) {
+    public String updateHero(Hero hero, HttpServletRequest request, @RequestParam("file") MultipartFile file) throws HeroImageDaoException {
         String[] superPowerIds = request.getParameterValues("superPowerIds");
         String[] organizationIds = request.getParameterValues("organizationIds");
 
@@ -132,6 +130,7 @@ public class HeroController {
         hero.setOrganizations(heroOrganizations);
         hero.setSuperPowers(heroSuperPowers);
         heroDao.updateHero(hero);
+        heroImageDao.saveHeroImage(file, hero.getHeroId());
         return "redirect:/heroes";
     }
     
@@ -140,5 +139,14 @@ public class HeroController {
         Hero hero = heroDao.getHeroById(id);
         heroDao.deleteHero(hero);
         return "redirect:/heroes";
+    }
+    
+    @GetMapping("heroDetail")
+    public String displayHero(Integer id, Model model) {
+        
+        Hero hero = heroDao.getHeroById(id);
+        
+        model.addAttribute("hero", hero);
+        return "heroDetail";
     }
 }

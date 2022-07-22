@@ -35,49 +35,42 @@
                     <a href="superpowers" class="btn btn-outline-primary btn-lg">SuperPowers</a>
                 </div>
             </div>
-
-            <div class="row m-4 border border-dark">
-                <div class="col-3 text-center m-3">
-                    <span class="h3">Add SuperPower</span>
-                </div>
-                <div class="col-7 text-center m-3">
-                    <form action="addSuperPower" method="POST">
-                        <div class="form-group row">
-                            <label for="name" class="col-3 col-form-label">
-                                Name</label>
-                            <div class="col-9">
-                                <input type="text" name="name" 
-                                       id="name" class="form-control"/>
-                            </div>
+            <div class="row m-4 text-center">
+                <div class="col"></div>
+                <div class="col">
+                    <div class="card" style="width: 40rem;">
+                        <img src="..." th:src="'/locationImage/' + ${sighting.location.locationId}" class="card-img-top" alt="...">
+                        <div class="card-header">
+                            <h2 class="card-title" th:text="${sighting.date}"></h2>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add SuperPower</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row m-4 border border-dark">
-                <div class="col text-center m-3">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="superPower : ${superPowers}">
-                                <td th:text="${superPower.superPowerId}">Student ID</td>
-                                <td th:text="${superPower.name}">Student First Name</td>
-                                <td><a href="#" th:href="@{/editSuperPower(superPowerId=${superPower.superPowerId})}">Edit</a></td>
-                                <td><a href="#" th:href="@{/deleteSuperPower(superPowerId=${superPower.superPowerId})}">Delete</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> 
+                        <div class="card-body">
+                            <h6 class="card-text" th:text="${sighting.location.name}"> Sighting location name</h6>
+                            <h6 class="card-text" th:text="${sighting.location.description}"> Sighting location description</h6>
+                            <p class="card-text" th:text="${sighting.location.streetNumber + ' ' + sighting.location.streetName}">Sighting location address</p>
+                            <p class="card-text" th:text="${sighting.location.city + ', ' + sighting.location.state}">Sighting location city and state</p>
+                            <p class="card-text" th:text="${sighting.location.zipcode}">Sighting location zipcode</p>
+                            <p class="card-text" th:text="'Latitude: ' + ${sighting.location.latitude}">Sighting location latitude</p>
+                            <p class="card-text" th:text="'Longitude: ' + ${sighting.location.longitude}">Sighting location longitude</p>
 
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6> Sighted Heroes: </h6>
+                                <div class="row">
+                                    <div class="col" th:each="hero : ${sighting.heroesSighted}">
+                                        <p  th:text="${hero.name}"></p>
+                                        <img src="..." th:src="'/heroImage/' + ${hero.heroId}" width="200rem" height="200rem" alt="...">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+
+        </div>  
 
         <!-- End main body -->
 
@@ -88,3 +81,4 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
 </html>
+

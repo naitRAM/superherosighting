@@ -2,6 +2,8 @@ package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.dao.HeroDao;
 import com.sg.superherosighting.dao.LocationDao;
+import com.sg.superherosighting.dao.LocationImageDao;
+import com.sg.superherosighting.dao.LocationImageDaoException;
 import com.sg.superherosighting.dao.OrganizationDao;
 import com.sg.superherosighting.dao.SightingDao;
 import com.sg.superherosighting.dao.SuperPowerDao;
@@ -43,6 +45,9 @@ public class LocationController {
     @Autowired
     SightingDao sightingDao;
     
+    @Autowired
+    LocationImageDao locationImageDao;
+    
     @GetMapping("locations")
     public String displayLocations(Model model) {
         List<Location> locations = locationDao.getAllLocations();
@@ -51,41 +56,48 @@ public class LocationController {
     }
     
     @PostMapping("addLocation")
-    public String addLocation(Location location) {
+    public String addLocation(Location location) throws LocationImageDaoException {
         locationDao.addLocation(location);
+        locationImageDao.saveLocationImage(location);
         return "redirect:/locations";
     }
     
     @GetMapping("editLocation")
-    public String editLocation(Model model, Integer id) {
+    public String editLocation(Model model, Integer id){
         Location location = locationDao.getLocationById(id);
+        
         model.addAttribute("location", location);
         return "editLocation";
     }
     
     @PostMapping("editLocation")
-    public String updateLocation(Location location) {
+    public String updateLocation(Location location) throws LocationImageDaoException {
         locationDao.updateLocation(location);
+        locationImageDao.saveLocationImage(location);
         return "redirect:/locations";
     }
     
     @GetMapping("deleteLocation")
-    public String deleteLocation(Integer id) {
+    public String deleteLocation(Integer id) throws LocationImageDaoException {
         Location location = locationDao.getLocationById(id);
         locationDao.deleteLocation(location);
+        locationImageDao.deleteLocationImage(location);
         return "redirect:/locations";
     }
     
-    @GetMapping(value = "locationImage/{locationId}", produces = MediaType.IMAGE_PNG_VALUE)
-    public void sendImage(HttpServletResponse response, @PathVariable Integer locationId) throws MalformedURLException, IOException{
-        Location location = locationDao.getLocationById(locationId);
-        final String API_KEY = "AIzaSyCiYseIf_oPMhJNW1UhTlfgbqHPa0dZwtI";
-        URL url = new URL("https://maps.googleapis.com/maps/api/staticmap?center="
-                + location.getLatitude() + "%2c%20" + location.getLongitude() + 
-                "&zoom=8&size=300x200&key=" + API_KEY +
-                "&markers=size:mid%7C" + location.getLatitude() + "%2c%20" + location.getLongitude());
-        InputStream image = url.openStream();
-        response.setContentType(MediaType.IMAGE_PNG_VALUE);
+    @GetMapping("locationDetail")
+    public String locationDetail(Integer id, Model model){
+        Location location = locationDao.getLocationById(id);
+        model.addAttribute("location", location);
+        return "locationDetail";
+    
+    }
+    
+    @GetMapping(value = "locationImage/{locationId}")
+    public void sendImage(HttpServletResponse response, @PathVariable Integer locationId) throws MalformedURLException, IOException, LocationImageDaoException{
+        
+        InputStream image = locationImageDao.getLocationImage(locationDao.getLocationById(locationId));
+        
         StreamUtils.copy(image, response.getOutputStream());
     }
 }

@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row m-4">
                 <div class="col text-center border border-dark">
-                    <h1>SuperHero Sightings</h1>
+                    <a href="/"><h1>SuperHero Sightings</h1></a>
                 </div>
             </div>
             <div class="row m-4 border border-dark">
@@ -35,6 +35,32 @@
                     <a href="superpowers" class="btn btn-outline-primary btn-lg">SuperPowers</a>
                 </div>
             </div>
+            <div class="row m-4 text-center">
+                <div class="col"></div>
+                <div class="col">
+                    <div class="card" style="width: 40rem;">
+                        <img src="..." th:src="'/locationImage/' + ${location.locationId}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h2 class="card-title" th:text="${location.name}">Location</h2>
+                            <h6 class="card-text" th:text="${location.description}"> Location description </h6>
+                            <p class="card-text" th:text="${location.streetNumber + ' ' + location.streetName}">Location address</p>
+                            <p class="card-text" th:text="${location.city + ', ' + location.state}">Location city and state</p>
+                            <p class="card-text" th:text="${location.zipcode}">Location zipcode</p>
+                            <p class="card-text" th:text="'Latitude: ' + ${location.latitude}">Location latitude</p>
+                            <p class="card-text" th:text="'Longitude: ' + ${location.longitude}">Location longitude</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6> Sighted Heroes: </h6>
+                                <p th:each="hero : ${location.sightedHeroes}" th:text="${hero.name}"></p>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+
         </div>  
 
         <!-- End main body -->

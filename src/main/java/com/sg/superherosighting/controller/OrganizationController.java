@@ -74,6 +74,11 @@ public class OrganizationController {
     public String editOrganization(Integer id, Model model) {
         Organization organization = organizationDao.getOrganizationById(id);
         List<Hero> allHeroes = heroDao.getAllHeroes();
+        for (Hero hero : allHeroes) {
+            hero.setLocations(new ArrayList<>());
+            hero.setOrganizations(new ArrayList<>());
+            hero.setSuperPowers(new ArrayList<>());
+        }
         model.addAttribute("organization", organization);
         model.addAttribute("heroes", allHeroes);
         return "editOrganization";
@@ -89,7 +94,14 @@ public class OrganizationController {
             }
         }
         organization.setMembers(organizationMembers);
-        organizationDao.addOrganization(organization);
+        organizationDao.updateOrganization(organization);
         return "redirect:/organizations";
+    }
+    
+    @GetMapping("organizationDetail")
+    public String displayOrganization(Model model, Integer id) {
+        Organization organization = organizationDao.getOrganizationById(id);
+        model.addAttribute("organization", organization);
+        return "organizationDetail";
     }
 }

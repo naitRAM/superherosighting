@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row m-4">
                 <div class="col text-center border border-dark">
-                    <h1>SuperHero Sightings</h1>
+                    <a href="/"><h1>SuperHero Sightings</h1></a>
                 </div>
             </div>
             <div class="row m-4 border border-dark">
@@ -46,7 +46,7 @@
                                 Name</label>
                             <div class="col-9">
                                 <input type="text" name="name" 
-                                       id="name" th:value="$(organization.name}" class="form-control"/>
+                                       id="name" th:value="${organization.name}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -54,7 +54,7 @@
                                 Description</label>
                             <div class="col-9">
                                 <input type="text" name="description" 
-                                       id="description"  th:value="$(organization.description}" class="form-control"/>
+                                       id="description"  th:value="${organization.description}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -62,7 +62,7 @@
                                 Street Number</label>
                             <div class="col-9">
                                 <input type="text" name="streetNumber" 
-                                       id="streetNumber" th:value="$(organization.streetNumber}" class="form-control"/>
+                                       id="streetNumber" th:value="${organization.streetNumber}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -70,7 +70,7 @@
                                 Street Name</label>
                             <div class="col-9">
                                 <input type="text" name="streetName" 
-                                       id="streetName" th:value="$(organization.streetName}" class="form-control"/>
+                                       id="streetName" th:value="${organization.streetName}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -78,7 +78,7 @@
                                 City</label>
                             <div class="col-9">
                                 <input type="text" name="city" 
-                                       id="city" th:value="$(organization.city}" class="form-control"/>
+                                       id="city" th:value="${organization.city}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -86,7 +86,7 @@
                                 State</label>
                             <div class="col-9">
                                 <input type="text" name="state" 
-                                       id="state" th:value="$(organization.state}" class="form-control"/>
+                                       id="state" th:value="${organization.state}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -94,7 +94,7 @@
                                 Zipcode</label>
                             <div class="col-9">
                                 <input type="text" name="zipcode" 
-                                       id="zipcode" th:value="$(organization.zipcode}" class="form-control"/>
+                                       id="zipcode" th:value="${organization.zipcode}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -102,7 +102,7 @@
                                 Phone</label>
                             <div class="col-9">
                                 <input type="text" name="phone" 
-                                       id="phone" th:value="$(organization.phone}" class="form-control"/>
+                                       id="phone" th:value="${organization.phone}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -110,7 +110,7 @@
                                 Email</label>
                             <div class="col-9">
                                 <input type="text" name="email" 
-                                       id="email" th:value="$(organization.email}" class="form-control"/>
+                                       id="email" th:value="${organization.email}" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -126,7 +126,7 @@
                                 </select>
                             </div>
                         </div>
-                        <input type="hidden" id="organizationId" th:value="${organization.organizationId}"/>
+                        <input type="hidden" id="organizationId" name="organizationId" th:value="${organization.organizationId}"/>
                         <button type="submit" class="btn btn-primary">Edit Organization</button>
                     </form>
                 </div>

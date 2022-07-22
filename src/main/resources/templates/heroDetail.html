@@ -35,49 +35,36 @@
                     <a href="superpowers" class="btn btn-outline-primary btn-lg">SuperPowers</a>
                 </div>
             </div>
-
-            <div class="row m-4 border border-dark">
-                <div class="col-3 text-center m-3">
-                    <span class="h3">Add SuperPower</span>
-                </div>
-                <div class="col-7 text-center m-3">
-                    <form action="addSuperPower" method="POST">
-                        <div class="form-group row">
-                            <label for="name" class="col-3 col-form-label">
-                                Name</label>
-                            <div class="col-9">
-                                <input type="text" name="name" 
-                                       id="name" class="form-control"/>
-                            </div>
+            <div class="row m-4 text-center">
+                <div class="col"></div>
+                <div class="col">
+                    <div class="card" style="width: 40rem;">
+                        <img src="..." th:src="'/heroImage/' + ${hero.heroId}" class="card-img-top" alt="..." height="700rem">
+                        <div class="card-body">
+                            <h2 class="card-title" th:text="${hero.name}">Hero Name</h2>
+                            <h6 class="card-text" th:text="${hero.description}">Hero Description</h6>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add SuperPower</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row m-4 border border-dark">
-                <div class="col text-center m-3">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="superPower : ${superPowers}">
-                                <td th:text="${superPower.superPowerId}">Student ID</td>
-                                <td th:text="${superPower.name}">Student First Name</td>
-                                <td><a href="#" th:href="@{/editSuperPower(superPowerId=${superPower.superPowerId})}">Edit</a></td>
-                                <td><a href="#" th:href="@{/deleteSuperPower(superPowerId=${superPower.superPowerId})}">Delete</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> 
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6> Organizations: </h6>
+                                <p th:each="organization : ${hero.organizations}" th:text="${organization.name}"></p>
+                            </li>
+                            <li class="list-group-item">
+                                <h6> SuperPowers: </h6>
+                                <p th:each="superPower : ${hero.superPowers}" th:text="${superPower.name}"></p>
+                            </li>
+                            <li class="list-group-item">
+                                <h6> Locations spotted: </h6>
+                                <p th:each="location : ${hero.locations}" th:text="${location.name}"></p>
+                            </li>
+                        </ul>
 
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+
+        </div>  
 
         <!-- End main body -->
 

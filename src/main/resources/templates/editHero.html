@@ -15,7 +15,7 @@
         <div class="container">
             <div class="row m-4">
                 <div class="col text-center border border-dark">
-                    <h1>SuperHero Sightings</h1>
+                    <a href="/"><h1>SuperHero Sightings</h1></a>
                 </div>
             </div>
             <div class="row m-4 border border-dark">
@@ -40,7 +40,7 @@
                     <span class="h3">Edit Hero</span>
                 </div>
                 <div class="col-7 text-center m-3">
-                    <form action="editHero" method="POST">
+                    <form action="editHero" method="POST" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label for="name" class="col-3 col-form-label">
                                 Name</label>
@@ -82,6 +82,20 @@
                                             th:selected="${hero.organizations.contains(organization)}">
                                         Organization Name</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-9">
+                                <img src="..." th:src="'/heroImage/' + ${hero.heroId}"  alt="..." wdith="200rem" height="200rem">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="file" class="col-3 col-form-label">
+                                Upload new image: </label>
+                            <div class="col-9">
+                                <input type="file" name="file" accept="image/png, image/jpeg"
+                                       id="file" class="form-control"/>
                             </div>
                         </div>
                         <input type="hidden" id="heroId" name="heroId"  th:value="${hero.heroId}"/>
