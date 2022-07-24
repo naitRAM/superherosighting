@@ -23,9 +23,17 @@ public class HeroImageDaoFileImpl implements HeroImageDao {
     private final String IMAGE_DIRECTORY = "images" + File.separator + "heroes" + File.separator;
     private final String FILE_PREFIX = "hero_";
     private final String[] FILE_EXTENSIONS = {".jpg", ".jpeg", ".png"};
-   
 
-    private Path getFilePath(int heroId) {
+    public HeroImageDaoFileImpl() {
+        Path path = Paths.get(IMAGE_DIRECTORY);
+        if (!Files.exists(path)) {
+            File file = new File(IMAGE_DIRECTORY);
+            file.mkdirs();
+        }
+    }
+
+    @Override
+    public Path getFilePath(int heroId) {
         for (String ext : FILE_EXTENSIONS) {
             Path path = assignFilePath(heroId, ext);
             if (Files.exists(path)) {
@@ -34,21 +42,23 @@ public class HeroImageDaoFileImpl implements HeroImageDao {
         }
         return null;
     }
-    
+
     private Path assignFilePath(int heroId, String fileExtension) {
         return Paths.get(IMAGE_DIRECTORY + FILE_PREFIX + heroId + fileExtension);
     }
 
     @Override
-    public InputStream getHeroImage(int heroId) {
+    public InputStream getHeroImage(int heroId){
         Path path = getFilePath(heroId);
         if (path != null) {
+
+            InputStream image;
             try {
-                InputStream image = new FileInputStream(path.toString());
-                return image;
+                image = new FileInputStream(path.toString());
             } catch (FileNotFoundException ex) {
-            } catch (IOException ex) {
+                return null;
             }
+            return image;
         }
         return null;
     }
@@ -57,13 +67,19 @@ public class HeroImageDaoFileImpl implements HeroImageDao {
     public void saveHeroImage(MultipartFile imageFile, int heroId) throws HeroImageDaoException {
         String fileName = imageFile.getOriginalFilename();
         boolean isValidFileType = false;
-        String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+        if (imageFile.isEmpty()) {
+            throw new HeroImageDaoException("File is empty");
+        }
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex == -1) {
+            throw new HeroImageDaoException("Invalid file type");
+        }
+        String fileExtension = fileName.substring(dotIndex);
         for (String ext : FILE_EXTENSIONS) {
             if (fileExtension.equals(ext)) {
                 isValidFileType = true;
             }
         }
-        
         if (!isValidFileType) {
             throw new HeroImageDaoException("Invalid file type");
         }

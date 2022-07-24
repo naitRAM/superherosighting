@@ -7,6 +7,7 @@ package com.sg.superherosighting.dao;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author rmans
  */
 public interface HeroImageDao {
+    public Path getFilePath(int heroId);
     public InputStream getHeroImage(int heroId);
     public void saveHeroImage(MultipartFile image, int heroId) throws HeroImageDaoException;
     public void deleteHeroImage(int heroId) throws HeroImageDaoException;

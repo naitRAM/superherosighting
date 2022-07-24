@@ -46,10 +46,20 @@
                             <label for="name" class="col-3 col-form-label">
                                 Name</label>
                             <div class="col-9">
-                                <input type="text" name="name" 
-                                       id="name" class="form-control"/>
+                                <input type="text"  name="name" 
+                                       id="name"  class="form-control" th:value="${!errors.isEmpty()} ? ${errorHero.name}"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'name'}"> Error message</p>
+                            </div>
+                        </div>
+
+
                         <div class="form-group row">
                             <label for="description" class="col-3 col-form-label">
                                 Description</label>
@@ -58,16 +68,32 @@
                                        id="description" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'description'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="superPowers" class="col-3 col-form-label">
-                               Superpowers</label>
+                                Superpowers</label>
                             <div class="col-9">
                                 <select multiple id="superPowers" name="superPowerIds" class="form-control" >
                                     <option th:each="superPower : ${superPowers}" 
                                             th:value="${superPower.superPowerId}" 
-                                            th:text="${superPower.name}">
+                                            th:text="${superPower.name}" th:selected="${!errors.isEmpty()} ? ${errorHero.superPowers.contains(superPower)} : false">
                                         Superpower Name</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'superPowers'}" > Error message</p>
                             </div>
                         </div>
                         <div class="form-group row">

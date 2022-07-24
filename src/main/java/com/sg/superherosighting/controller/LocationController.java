@@ -1,21 +1,13 @@
 package com.sg.superherosighting.controller;
 
-import com.sg.superherosighting.dao.HeroDao;
-import com.sg.superherosighting.dao.LocationDao;
-import com.sg.superherosighting.dao.LocationImageDao;
 import com.sg.superherosighting.dao.LocationImageDaoException;
-import com.sg.superherosighting.dao.OrganizationDao;
-import com.sg.superherosighting.dao.SightingDao;
-import com.sg.superherosighting.dao.SuperPowerDao;
 import com.sg.superherosighting.entity.Location;
+import com.sg.superherosighting.service.SuperHeroSightingServiceLayerImpl;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
@@ -31,73 +23,57 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LocationController {
 
     @Autowired
-    SuperPowerDao superPowerDao;
-
-    @Autowired
-    HeroDao heroDao;
-
-    @Autowired
-    LocationDao locationDao;
-
-    @Autowired
-    OrganizationDao organizationDao;
-
-    @Autowired
-    SightingDao sightingDao;
-    
-    @Autowired
-    LocationImageDao locationImageDao;
+    SuperHeroSightingServiceLayerImpl service;
     
     @GetMapping("locations")
     public String displayLocations(Model model) {
-        List<Location> locations = locationDao.getAllLocations();
+        List<Location> locations = service.getAllLocations();
         model.addAttribute("locations", locations);
         return "locations";
     }
     
     @PostMapping("addLocation")
-    public String addLocation(Location location) throws LocationImageDaoException {
-        locationDao.addLocation(location);
-        locationImageDao.saveLocationImage(location);
+    public String addLocation(Location location) {
+        service.addLocation(location);
         return "redirect:/locations";
     }
     
     @GetMapping("editLocation")
     public String editLocation(Model model, Integer id){
-        Location location = locationDao.getLocationById(id);
-        
+        Location location = service.getLocationById(id);
         model.addAttribute("location", location);
         return "editLocation";
     }
     
     @PostMapping("editLocation")
     public String updateLocation(Location location) throws LocationImageDaoException {
-        locationDao.updateLocation(location);
-        locationImageDao.saveLocationImage(location);
+        service.updateLocation(location);
         return "redirect:/locations";
     }
     
     @GetMapping("deleteLocation")
-    public String deleteLocation(Integer id) throws LocationImageDaoException {
-        Location location = locationDao.getLocationById(id);
-        locationDao.deleteLocation(location);
-        locationImageDao.deleteLocationImage(location);
+    public String deleteLocation(Integer id) {
+        
+        service.deleteLocation(id);
+        
         return "redirect:/locations";
     }
     
     @GetMapping("locationDetail")
     public String locationDetail(Integer id, Model model){
-        Location location = locationDao.getLocationById(id);
+        Location location = service.getLocationById(id);
         model.addAttribute("location", location);
         return "locationDetail";
     
     }
     
     @GetMapping(value = "locationImage/{locationId}")
-    public void sendImage(HttpServletResponse response, @PathVariable Integer locationId) throws MalformedURLException, IOException, LocationImageDaoException{
-        
-        InputStream image = locationImageDao.getLocationImage(locationDao.getLocationById(locationId));
-        
+    public void sendImage(HttpServletResponse response, @PathVariable Integer locationId) throws IOException{
+        InputStream image = service.getLocationImage(locationId);
+        if (image != null) {
         StreamUtils.copy(image, response.getOutputStream());
+        image.close();
+        }
+        
     }
 }

@@ -4,6 +4,8 @@ package com.sg.superherosighting.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,8 +16,13 @@ import java.util.Objects;
  */
 public class Hero {
     int heroId;
+    @NotBlank(message = "name must not be empty")
+    @Size(max = 25, message="name must be less than 25 characters")
     String name;
+    @NotBlank(message = "description must not be empty")
+    @Size(max = 250, message="description must be less than 250 characters")
     String description;
+    @Size(min = 1, message="hero must have at least 1 super power")
     List<SuperPower> superPowers = new ArrayList<>();;
     List<Location> locations = new ArrayList<>();
     List<Organization> organizations = new ArrayList<>();

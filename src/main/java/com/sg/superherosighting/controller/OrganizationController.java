@@ -1,19 +1,14 @@
 package com.sg.superherosighting.controller;
 
-import com.sg.superherosighting.dao.HeroDao;
-import com.sg.superherosighting.dao.LocationDao;
-import com.sg.superherosighting.dao.OrganizationDao;
-import com.sg.superherosighting.dao.SightingDao;
-import com.sg.superherosighting.dao.SuperPowerDao;
 import com.sg.superherosighting.entity.Hero;
 import com.sg.superherosighting.entity.Organization;
+import com.sg.superherosighting.service.SuperHeroSightingServiceLayer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -25,24 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class OrganizationController {
 
     @Autowired
-    SuperPowerDao superPowerDao;
-
-    @Autowired
-    HeroDao heroDao;
-
-    @Autowired
-    LocationDao locationDao;
-
-    @Autowired
-    OrganizationDao organizationDao;
-
-    @Autowired
-    SightingDao sightingDao;
+    SuperHeroSightingServiceLayer service;
 
     @GetMapping("organizations")
     public String displayOrganizations(Model model) {
-        List<Organization> allOrganizations = organizationDao.getAllOrganizations();
-        List<Hero> allHeroes = heroDao.getAllHeroes();
+        List<Organization> allOrganizations = service.getAllOrganizations();
+        List<Hero> allHeroes = service.getAllHeroes();
         model.addAttribute("organizations", allOrganizations);
         model.addAttribute("heroes", allHeroes);
         return "organizations";
@@ -51,29 +34,21 @@ public class OrganizationController {
     @PostMapping("addOrganization")
     public String addOrganization(Organization organization, HttpServletRequest request) {
         String[] organizationMemberIds = request.getParameterValues("heroIds");
-        List<Hero> organizationMembers = new ArrayList<>();
-        if (organizationMemberIds != null) {
-            for (String memberId : organizationMemberIds) {
-                organizationMembers.add(heroDao.getHeroById(Integer.parseInt(memberId)));
-            }
-        }
-        organization.setMembers(organizationMembers);
-        organizationDao.addOrganization(organization);
+        service.addOrganization(organization, organizationMemberIds);
         return "redirect:/organizations";
     }
 
     @GetMapping("deleteOrganization")
     public String deleteOrganization(Integer id) {
-        Organization organization = organizationDao.getOrganizationById(id);
-        organizationDao.deleteOrganization(organization);
+        service.deleteOrganization(id);
         return "redirect:/organizations";
 
     }
 
     @GetMapping("editOrganization")
     public String editOrganization(Integer id, Model model) {
-        Organization organization = organizationDao.getOrganizationById(id);
-        List<Hero> allHeroes = heroDao.getAllHeroes();
+        Organization organization = service.getOrganizationById(id);
+        List<Hero> allHeroes = service.getAllHeroes();
         for (Hero hero : allHeroes) {
             hero.setLocations(new ArrayList<>());
             hero.setOrganizations(new ArrayList<>());
@@ -87,20 +62,13 @@ public class OrganizationController {
     @PostMapping("editOrganization")
     public String updateOrganization(Organization organization, HttpServletRequest request) {
         String[] organizationMemberIds = request.getParameterValues("heroIds");
-        List<Hero> organizationMembers = new ArrayList<>();
-        if (organizationMemberIds != null) {
-            for (String memberId : organizationMemberIds) {
-                organizationMembers.add(heroDao.getHeroById(Integer.parseInt(memberId)));
-            }
-        }
-        organization.setMembers(organizationMembers);
-        organizationDao.updateOrganization(organization);
+        service.updateOrganization(organization, organizationMemberIds);
         return "redirect:/organizations";
     }
     
     @GetMapping("organizationDetail")
     public String displayOrganization(Model model, Integer id) {
-        Organization organization = organizationDao.getOrganizationById(id);
+        Organization organization = service.getOrganizationById(id);
         model.addAttribute("organization", organization);
         return "organizationDetail";
     }

@@ -1,11 +1,7 @@
 package com.sg.superherosighting.controller;
 
-import com.sg.superherosighting.dao.HeroDao;
-import com.sg.superherosighting.dao.LocationDao;
-import com.sg.superherosighting.dao.OrganizationDao;
-import com.sg.superherosighting.dao.SightingDao;
-import com.sg.superherosighting.dao.SuperPowerDao;
 import com.sg.superherosighting.entity.SuperPower;
+import com.sg.superherosighting.service.SuperHeroSightingServiceLayer;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,23 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class SuperPowerController {
 
     @Autowired
-    SuperPowerDao superPowerDao;
-    
-    @Autowired
-    HeroDao heroDao;
-    
-    @Autowired
-    LocationDao locationDao;
-    
-    @Autowired
-    OrganizationDao organizationDao;
-    
-    @Autowired
-    SightingDao sightingDao;
+    SuperHeroSightingServiceLayer service;
     
     @GetMapping("superpowers")
     public String displaySuperPowers(Model model) {
-        List<SuperPower> superPowers = superPowerDao.getAllSuperPowers();
+        List<SuperPower> superPowers = service.getAllSuperPowers();
         model.addAttribute("superPowers", superPowers);
         return "superpowers";
         
@@ -48,26 +32,26 @@ public class SuperPowerController {
     
     @PostMapping("addSuperPower")
     public String addSuperPower(SuperPower superPower) {
-        superPowerDao.addSuperPower(superPower);
+        service.addSuperPower(superPower);
         return "redirect:/superpowers";
     }
     
     @GetMapping("deleteSuperPower")
     public String deleteSuperPower(SuperPower superPower){
-        superPowerDao.deleteSuperPower(superPower);
+        service.deleteSuperPower(superPower.getSuperPowerId());
         return "redirect:/superpowers";
     }
     
     @GetMapping("editSuperPower")
     public String editSuperPower(Integer superPowerId, Model model){
-        SuperPower superPower = superPowerDao.getSuperPowerById(superPowerId);
+        SuperPower superPower = service.getSuperPowerById(superPowerId);
         model.addAttribute("superPower", superPower);
         return "editSuperPower";
     }
     
     @PostMapping("editSuperPower")
     public String updateSuperPower(SuperPower superPower){
-        superPowerDao.updateSuperPower(superPower);
+        service.updateSuperPower(superPower);
         return "redirect:/superpowers";
     }
 }

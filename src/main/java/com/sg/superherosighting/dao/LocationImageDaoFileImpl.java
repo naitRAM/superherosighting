@@ -6,26 +6,30 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
-
 
 /**
  *
  * @author Rami Mansieh email: rmansieh@gmail.com data: Jul. 22, 2022 purpose:
  */
-
 @Repository
 public class LocationImageDaoFileImpl implements LocationImageDao {
+
     private final String IMAGE_DIRECTORY = "images" + File.separator + "locations" + File.separator;
     private final String FILE_PREFIX = "location_";
     private final String FILE_EXTENSION = ".png";
+
+    public LocationImageDaoFileImpl() {
+        Path path = Paths.get(IMAGE_DIRECTORY);
+        if (!Files.exists(path)) {
+            File file = new File(IMAGE_DIRECTORY);
+            file.mkdirs();
+        }
+    }
 
     private InputStream getImageFromGoogleAPI(Location location) throws LocationImageDaoException {
         final String API_KEY = "";
@@ -55,13 +59,13 @@ public class LocationImageDaoFileImpl implements LocationImageDao {
 
     @Override
     public void saveLocationImage(Location location) throws LocationImageDaoException {
-        
+
         InputStream image = getImageFromGoogleAPI(location);
-        Path filePath = Paths.get(IMAGE_DIRECTORY + FILE_PREFIX + 
-                location.getLocationId() + FILE_EXTENSION);
+        Path filePath = Paths.get(IMAGE_DIRECTORY + FILE_PREFIX
+                + location.getLocationId() + FILE_EXTENSION);
         try {
             deleteLocationImage(location);
-        } catch(LocationImageDaoException ex) {
+        } catch (LocationImageDaoException ex) {
             throw new LocationImageDaoException("Could not update location image");
         }
         try {
@@ -74,20 +78,20 @@ public class LocationImageDaoFileImpl implements LocationImageDao {
 
     @Override
     public void deleteLocationImage(Location location) throws LocationImageDaoException {
-        Path filePath = Paths.get(IMAGE_DIRECTORY + FILE_PREFIX + 
-                location.getLocationId() + FILE_EXTENSION);
+        Path filePath = Paths.get(IMAGE_DIRECTORY + FILE_PREFIX
+                + location.getLocationId() + FILE_EXTENSION);
         try {
             Files.deleteIfExists(filePath);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             throw new LocationImageDaoException("Could not delete location image");
         }
     }
 
     @Override
     public InputStream getLocationImage(Location location) throws LocationImageDaoException {
-        Path filePath = Paths.get(IMAGE_DIRECTORY + FILE_PREFIX + 
-                location.getLocationId()+ FILE_EXTENSION);
-        if (! Files.exists(filePath)) {
+        Path filePath = Paths.get(IMAGE_DIRECTORY + FILE_PREFIX
+                + location.getLocationId() + FILE_EXTENSION);
+        if (!Files.exists(filePath)) {
             saveLocationImage(location);
         }
         File file = new File(filePath.toString());
@@ -97,5 +101,6 @@ public class LocationImageDaoFileImpl implements LocationImageDao {
             throw new LocationImageDaoException("Could not obtain location image");
         }
     }
+    
 
 }
