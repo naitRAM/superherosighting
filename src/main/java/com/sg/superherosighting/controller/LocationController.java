@@ -1,16 +1,26 @@
 package com.sg.superherosighting.controller;
 
 import com.sg.superherosighting.dao.LocationImageDaoException;
+import com.sg.superherosighting.entity.Hero;
 import com.sg.superherosighting.entity.Location;
 import com.sg.superherosighting.service.SuperHeroSightingServiceLayerImpl;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
+import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,15 +35,28 @@ public class LocationController {
     @Autowired
     SuperHeroSightingServiceLayerImpl service;
     
+    Set<ConstraintViolation<Location>> violations = new HashSet<>();
+    
     @GetMapping("locations")
     public String displayLocations(Model model) {
         List<Location> locations = service.getAllLocations();
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", new ArrayList<>());
         return "locations";
     }
     
     @PostMapping("addLocation")
-    public String addLocation(Location location) {
+    public String addLocation(Location location, Model model) {
+         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+
+        violations = validate.validate(location);
+        if (!violations.isEmpty()) {
+            model.addAttribute("errors", violations);
+            model.addAttribute("errorLocation", location);
+            model.addAttribute("locations", service.getAllLocations());
+            return "locations";
+        }
+                
         service.addLocation(location);
         return "redirect:/locations";
     }
@@ -46,7 +69,12 @@ public class LocationController {
     }
     
     @PostMapping("editLocation")
-    public String updateLocation(Location location) throws LocationImageDaoException {
+    public String updateLocation(@Valid Location location, BindingResult result, Model model) throws LocationImageDaoException {
+        if (result.hasErrors()) {
+            model.addAttribute("location", location);
+            return "editLocation";
+            
+        }
         service.updateLocation(location);
         return "redirect:/locations";
     }

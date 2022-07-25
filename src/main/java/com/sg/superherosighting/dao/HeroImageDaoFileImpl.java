@@ -87,7 +87,9 @@ public class HeroImageDaoFileImpl implements HeroImageDao {
         Path path = assignFilePath(heroId, fileExtension);
         File file = new File(path.toString());
         try {
-            Files.copy(imageFile.getInputStream(), path);
+            InputStream image = imageFile.getInputStream();
+            Files.copy(image, path);
+            image.close();
         } catch (IOException ex) {
             throw new HeroImageDaoException("Image could not be stored");
         }

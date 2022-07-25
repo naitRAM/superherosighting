@@ -122,24 +122,28 @@ public class HeroController {
         model.addAttribute("superPowers", allSuperPowers);
         model.addAttribute("organizations", allOrganizations);
         model.addAttribute("hero", hero);
+        model.addAttribute("errors", new ArrayList<>());
         return "editHero";
     }
 
     @PostMapping("editHero")
-    public String updateHero(@Valid Hero hero, BindingResult result, HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model) throws HeroImageDaoException {
+    public String updateHero(Hero hero, HttpServletRequest request, @RequestParam("file") MultipartFile file, Model model) throws HeroImageDaoException {
 
         String[] organizationIds = request.getParameterValues("organizationIds");
         String[] superPowerIds = request.getParameterValues("superPowerIds");
         hero = buildHeroLists(hero, organizationIds, superPowerIds);
-        if (result.hasErrors()) {
-            List<SuperPower> allSuperPowers = service.getAllSuperPowers();
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+
+        violations = validate.validate(hero);
+        if (!violations.isEmpty()) {
+            List<Hero> allHeroes = service.getAllHeroes();
             List<Organization> allOrganizations = service.getAllOrganizations();
-            for (Organization organization : allOrganizations) {
-                organization.setMembers(new ArrayList<>());
-            }
+            List<SuperPower> allSuperPowers = service.getAllSuperPowers();
+            model.addAttribute("hero", hero);
             model.addAttribute("superPowers", allSuperPowers);
             model.addAttribute("organizations", allOrganizations);
-            model.addAttribute("hero", hero);
+            model.addAttribute("heroes", allHeroes);
+            model.addAttribute("errors", violations);
             return "editHero";
         }
         service.updateHero(hero, file);

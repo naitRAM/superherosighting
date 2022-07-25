@@ -49,12 +49,24 @@
                                        id="name" th:value="${location.name}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.name')}" th:each="error : ${#fields.errors('location.name')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid name</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="description" class="col-3 col-form-label">
                                 Description</label>
                             <div class="col-9">
                                 <input type="text" name="description" 
                                        id="description" th:value="${location.description}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.description')}" th:each="error : ${#fields.errors('location.description')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid description</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -65,12 +77,24 @@
                                        id="streetNumber" th:value="${location.streetNumber}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.streetNumber')}" th:each="error : ${#fields.errors('location.streetNumber')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid street number</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="streetName" class="col-3 col-form-label">
                                 Street Name</label>
                             <div class="col-9">
                                 <input type="text" name="streetName" 
                                        id="streetName" th:value="${location.streetName}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.streetName')}" th:each="error : ${#fields.errors('location.streetName')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid street name</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -81,12 +105,24 @@
                                        id="city" th:value="${location.city}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.city')}" th:each="error : ${#fields.errors('location.city')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid city</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="state" class="col-3 col-form-label">
                                 State</label>
                             <div class="col-9">
                                 <input type="text" name="state" 
                                        id="state" th:value="${location.state}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.state')}" th:each="error : ${#fields.errors('location.state')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid state</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -97,6 +133,12 @@
                                        id="zipcode" th:value="${location.zipcode}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.zipcode')}" th:each="error : ${#fields.errors('location.zipcode')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid zipcode</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="latitude" class="col-3 col-form-label">
                                 Latitude</label>
@@ -105,12 +147,24 @@
                                        id="latitude" th:value="${location.latitude}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.latitude')}" th:each="error : ${#fields.errors('location.latitude')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid latitude</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="longitude" class="col-3 col-form-label">
                                 Longitude</label>
                             <div class="col-9">
                                 <input type="text" name="longitude" 
                                        id="longitude" th:value="${location.longitude}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row" th:if="${#fields.hasErrors('location.longitude')}" th:each="error : ${#fields.errors('location.longitude')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid longitude</p>
                             </div>
                         </div>
                         
