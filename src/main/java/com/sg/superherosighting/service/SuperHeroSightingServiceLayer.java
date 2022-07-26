@@ -33,12 +33,12 @@ public interface SuperHeroSightingServiceLayer {
     public List<SuperPower> getAllSuperPowers();
     public Hero addHero(Hero hero, MultipartFile heroImage) throws HeroImageDaoException;
     public Location addLocation(Location location);
-    public Organization addOrganization(Organization organization, String[] heroIds);
+    public Organization addOrganization(Organization organization);
     public Sighting addSighting(Sighting sighting, int locationId, String[] heroIds, String sightingDate);
     public SuperPower addSuperPower(SuperPower superPower);
     public void updateHero(Hero hero, MultipartFile heroImage) throws HeroImageDaoException;
     public void updateLocation(Location location) throws LocationImageDaoException;
-    public void updateOrganization(Organization organization, String[] heroIds);
+    public void updateOrganization(Organization organization);
     public void updateSighting(Sighting sighting, int locationId, String[] heroIds, String sightingDate);
     public void updateSuperPower(SuperPower superPower);
     public void deleteHero(int heroId);

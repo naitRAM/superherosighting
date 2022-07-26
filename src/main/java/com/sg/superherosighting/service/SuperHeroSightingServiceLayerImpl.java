@@ -121,21 +121,10 @@ public class SuperHeroSightingServiceLayerImpl implements SuperHeroSightingServi
         return location;
     }
 
-    private Organization buildOrganizationLists(Organization organization,
-            String[] heroIds) {
-        List<Hero> organizationMembers = new ArrayList<>();
-        if (heroIds != null) {
-            for (String memberId : heroIds) {
-                organizationMembers.add(heroDao.getHeroById(Integer.parseInt(memberId)));
-            }
-        }
-        organization.setMembers(organizationMembers);
-        return organization;
-    }
-
+   
     @Override
-    public Organization addOrganization(Organization organization, String[] heroIds) {
-        organization = buildOrganizationLists(organization, heroIds);
+    public Organization addOrganization(Organization organization) {
+        
         return organizationDao.addOrganization(organization);
     }
 
@@ -187,9 +176,9 @@ public class SuperHeroSightingServiceLayerImpl implements SuperHeroSightingServi
     }
 
     @Override
-    public void updateOrganization(Organization organization, String[] heroIds) {
+    public void updateOrganization(Organization organization) {
 
-        organization = buildOrganizationLists(organization, heroIds);
+        
         organizationDao.updateOrganization(organization);
     }
 

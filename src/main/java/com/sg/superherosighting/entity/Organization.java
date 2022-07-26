@@ -3,6 +3,8 @@ package com.sg.superherosighting.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -13,14 +15,32 @@ import java.util.Objects;
  */
 public class Organization {
     int organizationId;
+    @NotBlank(message = "name must not be blank")
+    @Size(max = 25, message = "name must be less than 25 characters")
     String name;
+    @NotBlank(message = "description must not be blank")
+    @Size(max = 250, message = "description must be less than 250 characters")
     String description;
+    @NotBlank(message = "street number must not be blank")
+    @Size(max = 10, message = "street number must be less than 10 characters")
     String streetNumber;
+    @NotBlank(message = "street name must not be blank")
+    @Size(max = 25, message = "street name must be less than 25 characters")
     String streetName;
+    @NotBlank(message = "city must not be blank")
+    @Size(max = 25, message = "city must be less than 25 characters")
     String city;
+    @NotBlank(message = "state must not be blank")
+    @Size(max = 25, message = "state must be less than 25 characters")
     String state;
+    @NotBlank(message = "zipcode must not be blank")
+    @Size(max =6, message = "zipcode must be 6 characters or less")
     String zipcode;
+    @NotBlank(message = "email must not be blank")
+    @Size(max = 25, message = "email must be less than 25 characters")
     String email;
+    @NotBlank(message = "phone must not be blank")
+    @Size(max =10, message = "phone must be 10 characters or less")
     String phone;
     List<Hero> members = new ArrayList<>();
     

@@ -49,12 +49,28 @@
                                        id="name" th:value="${organization.name}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'name'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="description" class="col-3 col-form-label">
                                 Description</label>
                             <div class="col-9">
                                 <input type="text" name="description" 
                                        id="description"  th:value="${organization.description}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'description'}"> Error message</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -65,12 +81,28 @@
                                        id="streetNumber" th:value="${organization.streetNumber}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'streetNumber'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="streetName" class="col-3 col-form-label">
                                 Street Name</label>
                             <div class="col-9">
                                 <input type="text" name="streetName" 
                                        id="streetName" th:value="${organization.streetName}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'streetName'}"> Error message</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -81,12 +113,28 @@
                                        id="city" th:value="${organization.city}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'city'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="state" class="col-3 col-form-label">
                                 State</label>
                             <div class="col-9">
                                 <input type="text" name="state" 
                                        id="state" th:value="${organization.state}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'state'}"> Error message</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -97,6 +145,14 @@
                                        id="zipcode" th:value="${organization.zipcode}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'zipcode'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="phone" class="col-3 col-form-label">
                                 Phone</label>
@@ -105,12 +161,28 @@
                                        id="phone" th:value="${organization.phone}" class="form-control"/>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'phone'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="email" class="col-3 col-form-label">
                                 Email</label>
                             <div class="col-9">
                                 <input type="text" name="email" 
                                        id="email" th:value="${organization.email}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'email'}"> Error message</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -124,6 +196,14 @@
                                             th:selected="${organization.members.contains(hero)}">
                                         Member Name</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'members'}"> Error message</p>
                             </div>
                         </div>
                         <input type="hidden" id="organizationId" name="organizationId" th:value="${organization.organizationId}"/>
