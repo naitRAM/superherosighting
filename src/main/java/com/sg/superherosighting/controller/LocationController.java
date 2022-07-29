@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -47,16 +49,14 @@ public class LocationController {
     
     @PostMapping("addLocation")
     public String addLocation(Location location, Model model) {
-         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(location);
         if (!violations.isEmpty()) {
             model.addAttribute("errors", violations);
             model.addAttribute("errorLocation", location);
             model.addAttribute("locations", service.getAllLocations());
             return "locations";
-        }
-                
+        }  
         service.addLocation(location);
         return "redirect:/locations";
     }

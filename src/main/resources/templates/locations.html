@@ -158,7 +158,7 @@
                                 Latitude</label>
                             <div class="col-9">
                                 <input type="text" name="latitude" 
-                                       id="latitude" th:value="${!errors.isEmpty() && errorLocation.latitude != 0} ? ${errorLocation.latitude}" class="form-control"/>
+                                       id="latitude" th:value="${!errors.isEmpty() && errorLocation.latitude != null} ? ${errorLocation.latitude}" class="form-control"/>
                             </div>
                         </div>
                         <div class ="row">
@@ -174,7 +174,7 @@
                                 Longitude</label>
                             <div class="col-9">
                                 <input type="text" name="longitude" 
-                                       id="longitude" th:value="${!errors.isEmpty() && errorLocation.longitude != 0} ? ${errorLocation.longitude}" class="form-control"/>
+                                       id="longitude" th:value="${!errors.isEmpty() && errorLocation.longitude != null} ? ${errorLocation.longitude}" class="form-control"/>
                             </div>
                         </div>
                         <div class ="row">

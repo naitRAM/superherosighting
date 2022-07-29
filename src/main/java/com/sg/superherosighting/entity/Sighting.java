@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,8 +18,11 @@ import java.util.Objects;
  */
 public class Sighting {
     int sightingId;
+    @NotNull(message = "Location was not selected")
     Location location;
+    @Past(message = "Date must be in the past")
     LocalDate date;
+    @Size(min = 1, message = "At least 1 hero must be selected")
     List<Hero> heroesSighted = new ArrayList<>();
     
     public Sighting (int sightingId, LocalDate date) {

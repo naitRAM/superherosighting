@@ -51,6 +51,12 @@
                             </div>
                         </div>
                         <input type="hidden" id="superPowerId" name="superPowerId" th:value="${superPower.superPowerId}"/>
+                        <div class ="row" th:if="${#fields.hasErrors('superPower.name')}" th:each="error : ${#fields.errors('superPower.name')}">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center">
+                                <p  class="alert alert-danger" th:text="${error}"> Invalid name</p>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary">Edit SuperPower</button>
                     </form>
                 </div>

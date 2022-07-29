@@ -47,13 +47,22 @@
                                 Name</label>
                             <div class="col-9">
                                 <input type="text" name="name" 
-                                       id="name" class="form-control"/>
+                                       id="name" class="form-control" th:value="${!errors.isEmpty()} ? ${superPower.name}"/>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'name'}"> Error message</p>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Add SuperPower</button>
                     </form>
                 </div>
             </div>
+
             <div class="row m-4 border border-dark">
                 <div class="col text-center m-3">
                     <table class="table table-striped">

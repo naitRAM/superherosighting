@@ -128,23 +128,11 @@ public class SuperHeroSightingServiceLayerImpl implements SuperHeroSightingServi
         return organizationDao.addOrganization(organization);
     }
 
-    private Sighting buildSightingFields(Sighting sighting, int locationId, String[] heroIds, String sightingDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(sightingDate, formatter);
-        Location location = locationDao.getLocationById(locationId);
-        List<Hero> heroes = new ArrayList<>();
-        for (String heroId : heroIds) {
-            heroes.add(heroDao.getHeroById(Integer.parseInt(heroId)));
-        }
-        sighting.setDate(date);
-        sighting.setLocation(location);
-        sighting.setHeroesSighted(heroes);
-        return sighting;
-    }
+    
 
     @Override
-    public Sighting addSighting(Sighting sighting, int locationId, String[] heroIds, String sightingDate) {
-        sighting = buildSightingFields(sighting, locationId, heroIds, sightingDate);
+    public Sighting addSighting(Sighting sighting) {
+        
         return sightingDao.addSighting(sighting);
     }
 
@@ -183,8 +171,8 @@ public class SuperHeroSightingServiceLayerImpl implements SuperHeroSightingServi
     }
 
     @Override
-    public void updateSighting(Sighting sighting, int locationId, String[] heroIds, String sightingDate) {
-        sighting = buildSightingFields(sighting, locationId, heroIds, sightingDate);
+    public void updateSighting(Sighting sighting) {
+        
         sightingDao.updateSighting(sighting);
     }
 
@@ -277,6 +265,11 @@ public class SuperHeroSightingServiceLayerImpl implements SuperHeroSightingServi
             LocationImageDaoException {
 
         locationImageDao.deleteLocationImage(location);
+    }
+
+    @Override
+    public List<Sighting> getAllSightingsOrderedByDate() {
+        return sightingDao.getSightingsOrderedByDate();
     }
 
 }

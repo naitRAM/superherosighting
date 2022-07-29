@@ -49,6 +49,14 @@
                                        id="date" th:value="${sighting.date}" class="form-control"/>
                             </div>
                         </div> 
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'date'}"> Error message</p>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="heroes" class="col-3 col-form-label">
                                Heroes</label>
@@ -60,6 +68,14 @@
                                             th:selected="${sighting.heroesSighted.contains(hero)}">
                                         Hero Name</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'heroesSighted'}"> Error message</p>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -76,6 +92,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class ="row">
+                            <div class="col"></div>
+                            <div class="col-9 m-1 text-center" 
+                                 th:if="${!errors.isEmpty()}">
+                                <p class="alert alert-danger" th:each="error : ${errors}" 
+                                   th:text="${error.message}" th:if="${error.propertyPath.toString() == 'location'}"> Error message</p>
+                            </div>
+                        </div>
+                        
                         <button type="submit" class="btn btn-primary">Edit Sighting</button>
                         <input type="hidden" id="sightingId" name="sightingId" th:value="${sighting.sightingId}"/>
                     </form>

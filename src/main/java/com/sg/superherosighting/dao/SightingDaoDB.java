@@ -55,6 +55,16 @@ public class SightingDaoDB implements SightingDao {
         associateLocationToSighting(sightings);
         return sightings;
     }
+    
+    @Override
+    public List<Sighting> getSightingsOrderedByDate() {
+        
+        String query = "SELECT sightingId, sightingDate FROM Sighting ORDER BY sightingDate DESC";
+        List<Sighting> sightings = jdbc.query(query, new SightingMapper());
+        associateHeroesToSighting(sightings);
+        associateLocationToSighting(sightings);
+        return sightings;
+    }
 
     private List<Hero> getSightingHeroes(Sighting sighting) {
         String query = "SELECT * FROM Hero JOIN SightingHero ON Hero.heroId = "

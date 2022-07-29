@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -46,19 +47,21 @@ public class Location {
     @Size(max =6, message = "zipcode must be 6 characters or less")
     String zipcode;
     
+    @NotNull(message = "must supply a valid latitude")
     @Min(value = -90, message = "latitude must be -90 or greater")
     @Max(value = 90, message = "longitude must be 90 or less")
-    double latitude;
+    Double latitude;
     
+    @NotNull(message = "must supply a valid longitude")
     @Min(value = -180, message = "longitude must be -180 or greater")
     @Max(value = 180, message = "longitude must be 180 or less")
-    double longitude;
+    Double longitude;
     
     List<Hero> sightedHeroes = new ArrayList<>();
 
     public Location (int locationId, String name, String description, String streetNumber,
-            String streetName, String city, String state, String zipcode, double latitude, 
-            double longitude) {
+            String streetName, String city, String state, String zipcode, Double latitude, 
+            Double longitude) {
         this.locationId = locationId;
         this.name = name;
         this.description = description;
@@ -72,8 +75,8 @@ public class Location {
     }
     
     public Location (String name, String description, String streetNumber,
-            String streetName, String city, String state, String zipcode, double latitude, 
-            double longitude) {
+            String streetName, String city, String state, String zipcode, Double latitude, 
+            Double longitude) {
         this.name = name;
         this.description = description;
         this.streetNumber = streetNumber;
@@ -137,19 +140,19 @@ public class Location {
         this.zipcode = zipcode;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

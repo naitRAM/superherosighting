@@ -32,7 +32,7 @@ public class LocationImageDaoFileImpl implements LocationImageDao {
     }
 
     private InputStream getImageFromGoogleAPI(Location location) throws LocationImageDaoException {
-        final String API_KEY = "";
+        final String API_KEY = "AIzaSyAZPLskefw7jXq0N9iulxcIbKiGBIkUKNM";
         final String WIDTH_BY_HEIGHT = "300x200";
         final String ZOOM = "8";
         final String ENC_COMMA = "%2C";
